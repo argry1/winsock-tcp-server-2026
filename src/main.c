@@ -47,6 +47,16 @@ int main(){
         return 1;
     }
 
+    char buffer[4096];
+    int bytes = recv(client, buffer, sizeof(buffer) - 1, 0);
+    if (bytes > 0){
+        buffer[bytes] = '\0';
+        send(client, buffer, bytes, 0);
+    }
+    else if (bytes == 0) {
+        printf("Client closed connection\n");
+    }
+
     closesocket(client);
     closesocket(server);
     WSACleanup();
